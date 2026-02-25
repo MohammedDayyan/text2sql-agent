@@ -1,0 +1,50 @@
+[
+    {
+        "question": "Show all orders placed in the last 7 days with customer name.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp4sqilk56",
+        "sql": "SELECT c.name, o.order_id, o.order_date \nFROM customers c \nJOIN orders o ON c.customer_id = o.customer_id \nWHERE o.order_date >= DATE('now', '-7 day')"
+    },
+    {
+        "question": "Show all orders placed in the last year with customer name.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpi9e8fdq5",
+        "sql": "SELECT c.name, o.order_id, o.order_date \nFROM orders o \nJOIN customers c ON o.customer_id = c.customer_id \nWHERE o.order_date >= DATE('now', '-1 year')"
+    },
+    {
+        "question": "Show revenue per category per month.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp6svn_fxe",
+        "sql": "SELECT STRFTIME('%Y-%m', o.order_date) AS month, p.category, SUM(oi.quantity * p.price) AS revenue\nFROM orders o\nJOIN order_items oi ON o.order_id = oi.order_id\nJOIN products p ON oi.product_id = p.product_id\nGROUP BY STRFTIME('%Y-%m', o.order_date), p.category"
+    },
+    {
+        "question": "Top 5 customers by total spending.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmprb2zr2ya",
+        "sql": "SELECT customer_id, total_spending \nFROM (\n  SELECT customer_id, total_spending, \n  ROW_NUMBER() OVER (ORDER BY total_spending DESC) as rank \n  FROM (\n    SELECT customer_id, SUM(total_amount) as total_spending \n    FROM orders \n    GROUP BY customer_id\n  )\n) \nWHERE rank <= 5"
+    },
+    {
+        "question": "Compare revenue between cities for the last 6 months.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmp0q3j5mej",
+        "sql": "SELECT city, SUM(total_amount) AS revenue \nFROM customers \nJOIN orders ON customers.customer_id = orders.customer_id \nWHERE orders.order_date > DATE('now', '-6 months') \nGROUP BY city \nORDER BY revenue DESC"
+    },
+    {
+        "question": "Who are our VIP customers?C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpqasamawj",
+        "sql": "SELECT name \nFROM (\n  SELECT c.name, \n  ROW_NUMBER() OVER (ORDER BY SUM(o.total_amount) DESC) as row_num\n  FROM customers c\n  JOIN orders o ON c.customer_id = o.customer_id\n  GROUP BY c.customer_id, c.name\n)\nWHERE row_num <= 10"
+    },
+    {
+        "question": "Which products are not selling well?C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpm5gg8gpl",
+        "sql": "SELECT product_name \nFROM (\n  SELECT p.product_name, \n  SUM(oi.quantity) as total_sales,\n  ROW_NUMBER() OVER (ORDER BY SUM(oi.quantity)) as sales_rank\n  FROM products p\n  LEFT JOIN order_items oi ON p.product_id = oi.product_id\n  GROUP BY p.product_name\n)\nWHERE sales_rank > (SELECT COUNT(*) FROM products) - 5"
+    },
+    {
+        "question": "Show growth trend of revenue.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpmod2wf64",
+        "sql": "SELECT \n  month, \n  revenue, \n  CASE \n    WHEN LAG(revenue) OVER (ORDER BY month) = 0 THEN NULL \n    ELSE (revenue - LAG(revenue) OVER (ORDER BY month)) / LAG(revenue) OVER (ORDER BY month) * 100 \n  END AS growth_rate\nFROM (\n  SELECT \n    STRFTIME('%Y-%m', o.order_date) AS month, \n    SUM(o.total_amount) AS revenue\n  FROM \n    orders o\n  GROUP BY \n    STRFTIME('%Y-%m', o.order_date)\n)"
+    },
+    {
+        "question": "Show sales distribution across categories.C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpdf0n_nj_",
+        "sql": "SELECT category, SUM(total_sales) AS total_category_sales \nFROM ( \n  SELECT p.category, SUM(oi.quantity * p.price) AS total_sales \n  FROM products p \n  JOIN order_items oi ON p.product_id = oi.product_id \n  GROUP BY p.category \n) \nGROUP BY category \nORDER BY total_category_sales DESC;"
+    },
+    {
+        "question": "What is total revenue?C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpkcowslvc",
+        "sql": "SELECT SUM(total_amount) FROM orders"
+    },
+    {
+        "question": "How much money did we make?C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpujwozj20",
+        "sql": "SELECT SUM(total_amount) FROM orders"
+    },
+    {
+        "question": "Show overall sales amount?C:\\Users\\DELL\\AppData\\Local\\Temp\\tmpnswt0jvg",
+        "sql": "SELECT SUM(total_amount) FROM orders"
+    }
+]
