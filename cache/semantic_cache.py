@@ -1,14 +1,8 @@
 import os
 import json
 import numpy as np
-import faiss
-from sentence_transformers import SentenceTransformer
 
 CACHE_PATH = "cache/semantic_cache.json"
-INDEX_PATH = "cache/faiss.index"
-
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
 
 def load_semantic_cache():
     if not os.path.exists(CACHE_PATH):
@@ -85,3 +79,4 @@ def store_semantic_sql(question, sql):
 
     save_semantic_cache(questions, sqls)
     build_faiss_index(questions)
+
