@@ -1,9 +1,7 @@
 from groq import Groq
-import os
-from dotenv import load_dotenv
-load_dotenv()
+import streamlit as st
 
-client = Groq(api_key=os.getenv('GROQ_API_KEY'))
+client = Groq(api_key=st.secrets('GROQ_API_KEY'))
 
 def explain_result(question, result):
 
@@ -23,3 +21,4 @@ Give business insight in 2 lines.
         temperature=0,
     )
     return response.choices[0].message.content.strip()
+
