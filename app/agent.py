@@ -4,7 +4,7 @@ import streamlit as st
 from app.schema import TAB
 
 
-client = Groq(api_key=st.secrets("GROQ_API_KEY"))
+client = Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 def generate_sql(question: str):
     prompt = SQL_PROMPT.format(question=question,TAB=TAB)
@@ -16,5 +16,6 @@ def generate_sql(question: str):
     )
 
     return response.choices[0].message.content.strip()
+
 
 
