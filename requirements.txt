@@ -2,10 +2,7 @@ groq
 streamlit
 pandas
 numpy
-sqlite3
 python-dotenv
-os
-sqalchemy
 scikit-learn
 networkx
 matplotlib
