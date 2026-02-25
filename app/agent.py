@@ -1,11 +1,10 @@
 from groq import Groq
 from app.prompt_templates import SQL_PROMPT
-import os
-from dotenv import load_dotenv
+import streamlit as st
 from app.schema import TAB
 load_dotenv()
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+client = Groq(api_key=st.secrets("GROQ_API_KEY"))
 
 def generate_sql(question: str):
     prompt = SQL_PROMPT.format(question=question,TAB=TAB)
@@ -17,3 +16,4 @@ def generate_sql(question: str):
     )
 
     return response.choices[0].message.content.strip()
+
