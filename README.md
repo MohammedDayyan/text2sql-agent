@@ -24,31 +24,32 @@ The system is designed to behave like a lightweight database reasoning agent rat
 
 The agent follows a hierarchical RAG workflow pattern:
       User Question
-           ↓
+           ->
       Intent Detection Agent
-           ↓
+           ->
       Semantic Cache (Embedding Similarity Search)
-           ↓
+           ->
      Schema-Aware SQL Generator (LLM)
-           ↓
+           ->
      SQL Validator Agent (Safety + Syntax)
-           ↓
+           ->
      Execution Engine (SQLAlchemy / SQLite)
-           ↓
+           ->
      Result Analyzer Agent (Natural Language Explanation)
-           ↓
+           ->
      Dashboard Output (Streamlit UI)
-  🧠 RAG Design Philosophy
+     
+🧠 RAG Design Philosophy
 
-Unlike traditional Text2SQL systems, this project implements:
+   -Unlike traditional Text2SQL systems, this project implements:
 
-Retrieval layer (semantic caching)
+   -Retrieval layer (semantic caching)
 
-Schema grounding
+   -Schema grounding
 
-Multi-agent validation
+   -Multi-agent validation
 
-Execution-based evaluation
+   -Execution-based evaluation
 
 This makes it closer to a structured reasoning agent than a prompt-based tool.
 
@@ -56,60 +57,60 @@ This makes it closer to a structured reasoning agent than a prompt-based tool.
 
 The system includes a 30-query benchmark suite measuring:
 
-Execution Accuracy (~65–75%)
+   -Execution Accuracy (~65–75%)
 
-Average Latency (~2–3 seconds)
+   -Average Latency (~2–3 seconds)
 
-Cache hit performance
+   -Cache hit performance
 
-Complex join reasoning capability
+   -Complex join reasoning capability
 
 Evaluation is execution-based, not string-matching based.
 
-📈 Key Features
+📈 Key Features:
+
 ✅ Multi-Agent Hierarchy
 
-Intent → Retrieval → Generation → Validation → Execution → Explanation
+   Intent → Retrieval → Generation → Validation → Execution → Explanation
 
 ✅ Semantic Caching
 
-Embedding-based query reuse for performance optimization.
+   Embedding-based query reuse for performance optimization.
 
 ✅ Dynamic Schema Support
 
-Automatically adapts to uploaded .db files.
+   Automatically adapts to uploaded .db files.
 
 ✅ Auto ER Diagram Generation
 
-Uses foreign key detection + graph visualization.
+   Uses foreign key detection + graph visualization.
 
 ✅ Query Safety Layer
 
-Prevents destructive SQL execution.
+   Prevents destructive SQL execution.
 
 ✅ Streamlit Deployment
 
-Interactive dashboard with live SQL generation.
+   Interactive dashboard with live SQL generation.
 
 🛠 Tech Stack
 
-Python
+   -Python
 
-Streamlit
+   -Streamlit
 
-SQLite
+   -SQLite
 
-SQLAlchemy
+   -SQLAlchemy
 
-Groq LLM
+   -Groq LLM
 
-Pandas
+   -Pandas
 
-Scikit-learn (cosine similarity)
+   -Scikit-learn (cosine similarity)
 
-NetworkX (ER diagrams)
+   -NetworkX (ER diagrams)
 
-Matplotlib
-🏗 System Architecture
+   -Matplotlib
+   
 
-The agent follows a hierarchical RAG workflow pattern:
